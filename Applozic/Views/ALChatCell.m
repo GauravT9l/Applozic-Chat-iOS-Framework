@@ -67,10 +67,12 @@
     if (self) {
         
         self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = UIColor.orangeColor
         
         self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
-        self.mUserProfileImageView.layer.cornerRadius=self.mUserProfileImageView.frame.size.width/2;
+    self.mUserProfileImageView.layer.cornerRadius=self.mUserProfileImageView.frame.size.width/2;
+        
         self.mUserProfileImageView.clipsToBounds = YES;
         [self.contentView addSubview:self.mUserProfileImageView];
         
@@ -251,7 +253,7 @@
         
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.shadowRadius = 0;
         self.mBubleImageView.layer.masksToBounds = NO;
 
         CGFloat mMessageLabelY = self.mBubleImageView.frame.origin.y + MESSAGE_PADDING_Y;
@@ -354,7 +356,7 @@
         
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.shadowRadius = 0;
         self.mBubleImageView.layer.masksToBounds = NO;
         CGFloat mMessageLabelY = self.mBubleImageView.frame.origin.y + MESSAGE_PADDING_Y;
 
