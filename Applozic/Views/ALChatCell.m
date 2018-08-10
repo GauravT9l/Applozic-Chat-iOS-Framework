@@ -67,11 +67,10 @@
     if (self) {
         
         self.backgroundColor = [UIColor clearColor];
-        self.backgroundColor = UIColor.orangeColor
         
         self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.mUserProfileImageView.layer.cornerRadius=self.mUserProfileImageView.frame.size.width/2;
+        self.mUserProfileImageView.layer.cornerRadius=self.mUserProfileImageView.frame.size.width/2;
         
         self.mUserProfileImageView.clipsToBounds = YES;
         [self.contentView addSubview:self.mUserProfileImageView];
@@ -106,7 +105,7 @@
         
         self.mMessageLabel = [[ALHyperLabel alloc] init];
         self.mMessageLabel.numberOfLines = 0;
-
+        
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
         
         if (!fontName) {
@@ -149,16 +148,16 @@
         
         self.hyperLinkArray = [NSMutableArray new];
         
-       if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
-           
-           self.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-           self.replyParentView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-           self.mNameLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-           self.mChannelMemberName.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-           self.mMessageLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-           self.mDateLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-           self.mMessageStatusImageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-       }
+        if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
+            
+            self.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            self.replyParentView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            self.mNameLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            self.mChannelMemberName.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            self.mMessageLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            self.mDateLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            self.mMessageStatusImageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+        }
     }
     
     UITapGestureRecognizer * menuTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(proccessTapForMenu:)];
@@ -172,6 +171,17 @@
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize
 {
+    
+    //-------------Gaurav
+    NSInteger cornerRadius = 5;
+    UIColor *borderColor =  [UIColor lightGrayColor];  //[UIColor colorWithRed:225.0/255 green:224.0/255 blue:224.0/255 alpha:1.0];
+    NSInteger borderWidth = 1;
+    
+    //------ ReSetting
+    self.mBubleImageView.layer.cornerRadius = 0.0;
+    self.mBubleImageView.layer.borderWidth = 0.0;
+    self.mMessageLabel.layer.cornerRadius = 0.0;
+    
     
     [self.hyperLinkArray removeAllObjects];
     self.mUserProfileImageView.alpha = 1;
@@ -211,7 +221,7 @@
     self.mUserProfileImageView.backgroundColor = [UIColor whiteColor];
     self.mMessageLabel.backgroundColor = [UIColor clearColor];
     
-    if([alMessage.type isEqualToString:@"100"])
+    if([alMessage.type isEqualToString:@"100"])  // Showing date // Today ..yesterday
     {
         [self dateTextSetupForALMessage:alMessage withViewSize:viewSize andTheTextSize:theTextSize];
     }
@@ -246,16 +256,23 @@
         CGFloat requiredBubbleWidth = theTextSize.width + BUBBLE_PADDING_WIDTH;
         CGFloat requiredBubbleHeight =  theTextSize.height + BUBBLE_PADDING_HEIGHT;
         
-
+        
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
                                                 0, requiredBubbleWidth,
                                                 requiredBubbleHeight);
         
-        self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-        self.mBubleImageView.layer.shadowRadius = 0;
+        //          self.mBubleImageView.layer.shadowOpacity = 0.3;
+        //          self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        //          self.mBubleImageView.layer.shadowRadius = 4/2;
+        //        self.mBubleImageView.layer.masksToBounds = NO;
+        
+        self.mBubleImageView.layer.cornerRadius = cornerRadius;
+        self.mBubleImageView.layer.borderColor = borderColor.CGColor;
+        self.mBubleImageView.layer.borderWidth = borderWidth;
         self.mBubleImageView.layer.masksToBounds = NO;
-
+        
+        
+        
         CGFloat mMessageLabelY = self.mBubleImageView.frame.origin.y + MESSAGE_PADDING_Y;
         
         if([alMessage getGroupId])
@@ -269,7 +286,7 @@
                 theTextSize.width = receiverNameSize.width+5;
                 requiredBubbleWidth = theTextSize.width + CHANNEL_PADDING_X;
             }
-        
+            
             
             self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + CHANNEL_PADDING_X,
                                                        self.mBubleImageView.frame.origin.y + CHANNEL_PADDING_Y,
@@ -301,7 +318,7 @@
         self.mMessageLabel.frame = CGRectMake(self.mChannelMemberName.frame.origin.x,
                                               self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + MESSAGE_PADDING_Y_GRP,
                                               theTextSize.width, theTextSize.height);
-
+        
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + MESSAGE_PADDING_X ,
                                               mMessageLabelY,
@@ -348,25 +365,33 @@
         CGFloat requiredBubbleWidth = theTextSize.width + BUBBLE_PADDING_X_OUTBOX;
         CGFloat requiredBubbleHeight =  theTextSize.height + BUBBLE_PADDING_HEIGHT;
         
-
+        
         
         self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - BUBBLE_PADDING_X_OUTBOX) , 0,
                                                 requiredBubbleWidth+10,
                                                 requiredBubbleHeight);
         
-        self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-        self.mBubleImageView.layer.shadowRadius = 0;
+        
+        //        self.mBubleImageView.layer.shadowOpacity = 0.0;
+        //        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 0);
+        //        self.mBubleImageView.layer.shadowRadius = 0;
+        //        self.mBubleImageView.layer.masksToBounds = NO;
+        
+        self.mBubleImageView.layer.cornerRadius = cornerRadius;
+        self.mBubleImageView.layer.borderColor = borderColor.CGColor;
+        self.mBubleImageView.layer.borderWidth = borderWidth;
         self.mBubleImageView.layer.masksToBounds = NO;
+        
+        
         CGFloat mMessageLabelY = self.mBubleImageView.frame.origin.y + MESSAGE_PADDING_Y;
-
+        
         if(alMessage.isAReplyMessage)
         {
             [self processReplyOfChat:alMessage andViewSize:viewSize];
             mMessageLabelY = mMessageLabelY + self.replyParentView.frame.size.height ;
             requiredBubbleHeight = requiredBubbleHeight + self.replyParentView.frame.size.height;
             requiredBubbleWidth = self.replyParentView.frame.size.width + 10;
-
+            
         }
         
         //resize bubble
@@ -396,9 +421,9 @@
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
                                                         self.mDateLabel.frame.origin.y,
                                                         MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
-
         
- 
+        
+        
         
         
     }
@@ -460,38 +485,34 @@
                                                     NSForegroundColorAttributeName :[UIColor blueColor],
                                                     NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                     };
-    
+        
         if (self.mMessage.message){
             self.mMessageLabel.attributedText = [[NSAttributedString alloc] initWithString:self.mMessage.message attributes:attrs];
         }
         [self setHyperLinkAttribute];
     }
-    
-    
-
-    
     return self;
     
 }
 
 -(void) proccessTapForMenu:(id)tap{
-
+    
     [self processKeyBoardHideTap];
     
-     UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
-       UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
+    UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
+    UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
     
     if ([self.mMessage.type isEqualToString:@MT_INBOX_CONSTANT]){
-       
+        
         [[UIMenuController sharedMenuController] setMenuItems: @[messageForward,messageReply]];
-
+        
     }else if ([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
-       
+        
         UIMenuItem * msgInfo = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"infoOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Info", @"") action:@selector(msgInfo:)];
         
         [[UIMenuController sharedMenuController] setMenuItems: @[msgInfo,messageReply,messageForward]];
     }
-       [[UIMenuController sharedMenuController] update];
+    [[UIMenuController sharedMenuController] update];
     
 }
 
@@ -500,12 +521,16 @@
     [self.mDateLabel setHidden:YES];
     [self.mBubleImageView setHidden:YES];
     CGFloat dateY = 0;
-    [self.mMessageLabel setFrame:CGRectMake(0, dateY, viewSize.width, theTextSize.height+10)];
+    CGFloat origin = viewSize.width/2 - theTextSize.width/2 - 50/2;
+    [self.mMessageLabel setFrame:CGRectMake(origin, dateY, theTextSize.width + 50, theTextSize.height+10)];
     [self.mMessageLabel setTextAlignment:NSTextAlignmentCenter];
     [self.mMessageLabel setText:alMessage.message];
-    [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
+    [self.mMessageLabel setBackgroundColor:[ALApplozicSettings getMsgDateBGColor]];
     [self.mMessageLabel setTextColor:[ALApplozicSettings getMsgDateColor]];
     self.mUserProfileImageView.frame = CGRectMake(USER_PROFILE_PADDING_X, 0, 0, USER_PROFILE_HEIGHT);
+    
+    self.mMessageLabel.layer.cornerRadius = self.mMessageLabel.frame.size.height/2;
+    self.mMessageLabel.layer.masksToBounds = YES;
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -535,8 +560,6 @@
     }
     
     return (self.mMessage.isDownloadRequired? (action == @selector(delete:)):(action == @selector(delete:) ||[self isForwardMenuEnabled:action]|| [self isMessageReplyMenuEnabled:action] )|| (action == @selector(copy:)));
-    
-    
 }
 
 
@@ -786,3 +809,4 @@
 }
 
 @end
+

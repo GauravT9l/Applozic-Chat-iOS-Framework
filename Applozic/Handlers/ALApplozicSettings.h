@@ -35,6 +35,9 @@
 #define USER_CALL_OPTION @"com.applozic.userdefault.USER_CALL_OPTION"
 #define SEND_BUTTON_BG_COLOR @"com.applozic.userdefault.SEND_BUTTON_BG_COLOR"
 #define TYPE_MSG_BG_COLOR @"com.applozic.userdefault.TYPE_MSG_BG_COLOR"
+#define TYPE_MSG_BG_COLOR_BORDER @"com.applozic.userdefault.TYPE_MSG_BG_COLOR_BORDER"
+
+
 #define TYPING_LABEL_BG_COLOR @"com.applozic.userdefault.TYPING_LABEL_BG_COLOR"
 #define TYPING_LABEL_TEXT_COLOR @"com.applozic.userdefault.TYPING_LABEL_TEXT_COLOR"
 #define EMPTY_CONVERSATION_TEXT @"com.applozic.userdefault.EMPTY_CONVERSATION_TEXT"
@@ -57,6 +60,8 @@
 #define ENABLE_MSGTEXT_ABUSE_CHECK @"com.applozic.userdefault.ENABLE_MSGTEXT_ABUSE_CHECK"
 #define MSG_DATE_COLOR @"com.applozic.userdefault.MSG_DATE_COLOR"
 #define MSG_SEPERATE_DATE_COLOR @"com.applozic.userdefault.MSG_SEPERATE_DATE_COLOR"
+#define MSG_SEPERATE_DATE_BACKGROUNF_COLOR @"com.applozic.userdefault.MSG_SEPERATE_DATE_BACKGROUNF_COLOR"
+
 #define ENABLE_RECEIVER_USER_PROFILE @"com.applozic.userdefault.ENABLE_RECEIVER_USER_PROFILE"
 #define CUSTOM_MSG_FONT_SIZE @"com.applozic.userdefault.CUSTOM_MSG_FONT_SIZE"
 #define CUSTOM_MSG_FONT @"com.applozic.userdefault.CUSTOM_MSG_FONT"
@@ -70,6 +75,8 @@
 #define AUDIO_VIDEO_CLASS @"com.applozic.userdefault.AUDIO_VIDEO_CLASS"
 #define CLIENT_STORYBOARD @"com.applozic.userdefault.CLIENT_STORYBOARD"
 #define GROUP_DELETED_TITLE @"com.applozic.userdefault.GROUP_DELETED_TITLE"
+#define GROUP_CHAT_TITLE_FORCELY @"com.applozic.userdefault.GROUP_CHAT_TITLE_FORCELY"
+
 #define USER_DELETED_TEXT @"com.applozic.userdefault.USER_DELETED_TEXT"
 #define CHAT_LIST_TAB_ICON @"com.applozic.userdefault.CHAT_LIST_TAB_ICON"
 #define USER_PROFILE_TAB_ICON @"com.applozic.userdefault.USER_PROFILE_TAB_ICON"
@@ -215,6 +222,9 @@ static NSString * const HIDE_MESSAGES_WITH_METADATA_KEYS = @"com.applozic.HIDE_M
 +(UIColor *)getColorForTypeMsgBackground;
 +(void)setColorForTypeMsgBackground:(UIColor *)viewColor;
 
++(UIColor *)getColorForTypeMsgBackgroundBorder;
++(void)setColorForTypeMsgBackgroundBorder:(UIColor *)viewColor;
+
 +(UIColor *)getBGColorForTypingLabel;
 +(void)setBGColorForTypingLabel:(UIColor *)bgColor;
 
@@ -278,6 +288,10 @@ static NSString * const HIDE_MESSAGES_WITH_METADATA_KEYS = @"com.applozic.HIDE_M
 +(UIColor *)getMsgDateColor;
 +(void)setMsgDateColor:(UIColor *)dateColor;
 
++(UIColor *)getMsgDateBGColor;
++(void)setMsgDateBGColor:(UIColor *)dateColor;
+
+
 +(BOOL)getReceiverUserProfileOption;
 +(void)setReceiverUserProfileOption:(BOOL)flag;
 
@@ -324,6 +338,10 @@ static NSString * const HIDE_MESSAGES_WITH_METADATA_KEYS = @"com.applozic.HIDE_M
 
 +(NSString *)getUserDeletedText;
 +(void)setUserDeletedText:(NSString *)text;
+
++(void)setGroupChatTitleForcely:(NSString *)title;
++(NSString *)getGroupChatTitleForcely;
+
 
 +(UIImage *)getChatListTabIcon;
 +(void)setChatListTabIcon:(NSString *)imageName;
@@ -425,3 +443,4 @@ static NSString * const HIDE_MESSAGES_WITH_METADATA_KEYS = @"com.applozic.HIDE_M
 +(NSArray *) metadataKeysToHideMessages;
 +(void) hideMessagesWithMetadataKeys:(NSArray *)keys;
 @end
+

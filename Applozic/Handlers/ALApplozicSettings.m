@@ -91,7 +91,7 @@
     NSData *barColorData = [NSKeyedArchiver archivedDataWithRootObject:barColor];
     [[NSUserDefaults standardUserDefaults] setObject:barColorData forKey:NAVIGATION_BAR_COLOUR];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
 }
 
 +(UIColor *)getColorForNavigation
@@ -106,7 +106,7 @@
     NSData *barItemColorData = [NSKeyedArchiver archivedDataWithRootObject:barItemColor];
     [[NSUserDefaults standardUserDefaults] setObject:barItemColorData forKey:NAVIGATION_BAR_ITEM_COLOUR];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
 }
 
 +(UIColor *)getColorForNavigationItem
@@ -149,14 +149,14 @@
 {
     NSString * text = [[NSUserDefaults standardUserDefaults] valueForKey:BACK_BUTTON_TITLE_CHATVC];
     return text ? text : NSLocalizedStringWithDefaultValue(@"chatViewBack", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Back", @"");
-
+    
 }
 
 
 +(void)setNotificationTitle:(NSString *)notificationTitle
 {
     [[NSUserDefaults standardUserDefaults] setValue:notificationTitle forKey:NOTIFICATION_TITLE];
-
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -242,7 +242,7 @@
 }
 
 +(void)setCustomMessageBackgroundColor:(UIColor *)color{
-
+    
     NSData * recievedCustomBackgroundColorData = [NSKeyedArchiver archivedDataWithRootObject:color];
     [[NSUserDefaults standardUserDefaults] setValue:recievedCustomBackgroundColorData
                                              forKey:CUSTOM_MSG_BACKGROUND_COLOR];
@@ -381,6 +381,20 @@
     UIColor * viewColor = [NSKeyedUnarchiver unarchiveObjectWithData:viewColorData];
     return viewColor ? viewColor : [UIColor lightGrayColor];
 }
+
++(UIColor *)getColorForTypeMsgBackgroundBorder{
+    NSData * viewColorData = [[NSUserDefaults standardUserDefaults] objectForKey:TYPE_MSG_BG_COLOR_BORDER];
+    UIColor * viewColor = [NSKeyedUnarchiver unarchiveObjectWithData:viewColorData];
+    return viewColor ? viewColor : [UIColor lightGrayColor];
+}
+
++(void)setColorForTypeMsgBackgroundBorder:(UIColor *)viewColor{
+    NSData * viewColorData = [NSKeyedArchiver archivedDataWithRootObject:viewColor];
+    [[NSUserDefaults standardUserDefaults] setObject:viewColorData forKey:TYPE_MSG_BG_COLOR_BORDER];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
 
 +(void)setBGColorForTypingLabel:(UIColor *)bgColor
 {
@@ -646,13 +660,31 @@
     [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:MSG_SEPERATE_DATE_COLOR];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
 +(UIColor *)getMsgDateColor
 {
     NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:MSG_SEPERATE_DATE_COLOR];
     UIColor *color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
     return color ? color : [UIColor blackColor];
 }
+
+
++(UIColor *)getMsgDateBGColor
+{
+    NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:MSG_SEPERATE_DATE_BACKGROUNF_COLOR];
+    UIColor *color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return color ? color : [UIColor blackColor];
+}
+
++(void)setMsgDateBGColor:(UIColor *)dateColor
+{
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:dateColor];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:MSG_SEPERATE_DATE_BACKGROUNF_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
+
+
 
 +(void)setReceiverUserProfileOption:(BOOL)flag
 {
@@ -698,7 +730,7 @@
 +(BOOL)isGroupInfoDisabled
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_INFO_DISABLED];
-
+    
 }
 
 +(void)setGroupInfoEditDisabled:(BOOL)flag
@@ -828,6 +860,19 @@
     NSString *text = [[NSUserDefaults standardUserDefaults] valueForKey:USER_DELETED_TEXT];
     return text ? text :NSLocalizedStringWithDefaultValue(@"userDeletedInfo", [ALApplozicSettings getLocalizableName], [NSBundle mainBundle], @"User has been deleted", @"");
 }
+
++(void)setGroupChatTitleForcely:(NSString *)title;
+{
+    [[NSUserDefaults standardUserDefaults] setObject:title forKey:GROUP_CHAT_TITLE_FORCELY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getGroupChatTitleForcely
+{
+    NSString *text = [[NSUserDefaults standardUserDefaults] valueForKey:GROUP_CHAT_TITLE_FORCELY];
+    return text ? text : @"";
+}
+
 
 +(void)setUserDeletedText:(NSString *)text
 {
@@ -999,7 +1044,7 @@
 }
 
 +(void) setHideAttachmentsOption:(NSMutableArray*)array{
-
+    
     [[NSUserDefaults standardUserDefaults] setObject:array forKey:HIDE_ATTACHMENT_OPTION];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -1032,12 +1077,12 @@
 }
 
 +(BOOL) isCameraOptionHidden{
-
+    
     return ([[self getHideAttachmentsOption] containsObject:@":camera"]);
 }
 
 +(BOOL) isPhotoGalleryOptionHidden{
-
+    
     return ([[self getHideAttachmentsOption] containsObject:@":gallery"]);
 }
 
@@ -1051,7 +1096,7 @@
 
 +(BOOL) isLocationOptionHidden{
     return ([[self getHideAttachmentsOption] containsObject:@":location"]);
-
+    
 }
 
 +(BOOL) isBlockUserOptionHidden{
@@ -1111,11 +1156,11 @@
 +(void)setUserRoleName:(NSString*)roleName{
     [[NSUserDefaults standardUserDefaults] setValue:roleName forKey:AL_USER_ROLE_NAME];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
 }
 
 +(NSString*)getUserRoleName{
-
+    
     NSString *stringtext = [[NSUserDefaults standardUserDefaults] valueForKey:AL_USER_ROLE_NAME];
     return stringtext ? stringtext : @"USER";
 }
@@ -1151,8 +1196,8 @@
 
 +(NSString *)getLocalizableName
 {
-   return [[NSUserDefaults standardUserDefaults] valueForKey:APPLOZIC_LOCALIZABLE];
-
+    return [[NSUserDefaults standardUserDefaults] valueForKey:APPLOZIC_LOCALIZABLE];
+    
 }
 
 +(void)setCategoryName:(NSString*)categoryName{
@@ -1210,3 +1255,4 @@
 }
 
 @end
+
