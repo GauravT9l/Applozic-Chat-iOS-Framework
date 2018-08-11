@@ -21,6 +21,13 @@
 #import "ALVCardClass.h"
 #import <ContactsUI/CNContactPickerViewController.h>
 
+
+#define CornerRadius 5
+//#define BorderColor [UIColor redColor]
+#define BorderColor [UIColor colorWithRed:225/255.0f green:224/255.0f blue:224/255.0f alpha:0.9]  // #white7
+#define BorderWidth 1
+
+
 @protocol ALChatViewControllerDelegate <NSObject>
 
 @optional

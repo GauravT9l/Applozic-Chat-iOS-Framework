@@ -62,7 +62,7 @@
         
         UITapGestureRecognizer * menuTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(proccessTapForMenu:)];
         [self.contentView addGestureRecognizer:menuTapGesture];
-
+        
     }
     
     return self;
@@ -116,14 +116,14 @@
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
         self.mNameLabel.frame = self.mUserProfileImageView.frame;
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:receiverName]];
-
+        
         BUBBLE_ABSCISSA = self.mUserProfileImageView.frame.size.width + ADJUST_USER_PROFILE;
         
-     
+        
         CGFloat imageViewY = self.mBubleImageView.frame.origin.y + FLOAT_CONSTANT;
-        CGFloat imageHeight = CELL_HEIGHT;      
-
-       self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
+        CGFloat imageHeight = CELL_HEIGHT;
+        
+        self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
         
         if( alMessage.groupId )
         {
@@ -142,7 +142,7 @@
             [self processReplyOfChat:alMessage andViewSize:viewSize];
             CELL_HEIGHT = CELL_HEIGHT + self.replyParentView.frame.size.height ;
             imageViewY =  imageViewY + self.replyParentView.frame.size.height;
-        
+            
         }
         self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
         
@@ -174,8 +174,8 @@
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:receiverName];
         }
         
-
-
+        
+        
     }
     else
     {
@@ -188,7 +188,7 @@
         
         BUBBLE_ABSCISSA = viewSize.width - self.mUserProfileImageView.frame.origin.x + 60;
         self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
-    
+        
         if(alMessage.isAReplyMessage)
         {
             [self processReplyOfChat:alMessage andViewSize:viewSize];
@@ -197,7 +197,7 @@
             
         }
         
-      self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
+        self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
         
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + FLOAT_CONSTANT,imageViewY,
                                            self.mBubleImageView.frame.size.width - ADJUST_WIDTH,
@@ -210,8 +210,8 @@
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
                                                         self.mDateLabel.frame.origin.y, MSG_STATUS_CONSTANT, MSG_STATUS_CONSTANT);
-
-    
+        
+        
         self.mMessageStatusImageView.hidden = NO;
         NSString * imageName;
         
@@ -221,28 +221,28 @@
             {
                 imageName = @"ic_action_read.png";
             }
-            break;
+                break;
             case DELIVERED:
             {
                 imageName = @"ic_action_message_delivered.png";
             }
-            break;
+                break;
             case SENT:
             {
                 imageName = @"ic_action_message_sent.png";
             }
-            break;
+                break;
             default:
             {
                 imageName = @"ic_action_about.png";
             }
-            break;
+                break;
         }
         
         
         self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:imageName];
     }
-
+    
     self.mDateLabel.text = theDate;
     theUrl = nil;
     NSString *latLongArgument = [self formatLocationJson:alMessage];
@@ -267,8 +267,8 @@
         [self.contentView bringSubviewToFront:self.replyParentView];
         
     }
-
-
+    
+    
     
     return self;
 }
@@ -280,7 +280,7 @@
 -(void) proccessTapForMenu:(id)tap{
     
     [self processKeyBoardHideTap];
-
+    
     UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
     UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
     
@@ -289,7 +289,7 @@
         [[UIMenuController sharedMenuController] setMenuItems: @[messageForward,messageReply]];
         
     }else if ([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
-
+        
         
         UIMenuItem * msgInfo = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"infoOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Info", @"") action:@selector(msgInfo:)];
         
@@ -302,9 +302,14 @@
 
 -(void) addShadowEffects
 {
-    self.mBubleImageView.layer.shadowOpacity = 0.3;
-    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.shadowOpacity = 0.3;
+    //    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+    //    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.masksToBounds = NO;
+    
+    self.mBubleImageView.layer.cornerRadius = CornerRadius;
+    self.mBubleImageView.layer.borderColor = BorderColor.CGColor;
+    self.mBubleImageView.layer.borderWidth = BorderWidth;
     self.mBubleImageView.layer.masksToBounds = NO;
 }
 
@@ -320,7 +325,7 @@
     NSDictionary *jsonStringDic = [NSJSONSerialization JSONObjectWithData:objectData
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&error];
-  
+    
     NSArray* latLog = [[NSArray alloc] initWithObjects:[jsonStringDic valueForKey:@"lat"],[jsonStringDic valueForKey:@"lon"], nil];
     
     if(!latLog.count)
@@ -350,16 +355,16 @@
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender
 {
     
-
+    
     if(self.mMessage.groupId){
-            
-            ALChannelService *channelService = [[ALChannelService alloc] init];
-            ALChannel *channel =  [channelService getChannelByKey:self.mMessage.groupId];
-            if(channel && channel.type == OPEN){
-                return NO;
-            }
-        }
         
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        ALChannel *channel =  [channelService getChannelByKey:self.mMessage.groupId];
+        if(channel && channel.type == OPEN){
+            return NO;
+        }
+    }
+    
     if([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && self.mMessage.groupId)
     {
         return (self.mMessage.isDownloadRequired? (action == @selector(delete:) || action == @selector(msgInfo:)):(action == @selector(delete:)|| action == @selector(msgInfo:)|| [self isForwardMenuEnabled:action] || [self isMessageReplyMenuEnabled:action]) );
@@ -399,7 +404,7 @@
     ALMessageInfoViewController *msgInfoVC = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
     msgInfoVC.contentURL = theUrl;
-     __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
+    __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
     [msgInfoVC setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
         
         if(!error)
@@ -418,7 +423,7 @@
     NSString *latLongArgument = [self formatLocationJson:almessage];
     NSString * finalURl = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/staticmap?center=%@&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%@&key=%@",
                            latLongArgument,latLongArgument,[ALUserDefaultsHandler getGoogleMapAPIKey]];
-
+    
     return finalURl;
 }
 

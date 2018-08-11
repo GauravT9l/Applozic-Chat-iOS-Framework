@@ -32,7 +32,7 @@
     [self.mMessageLabel setText:alMessage.message];
     [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
     [self.mMessageLabel setTextColor:[UIColor blackColor]];
-
+    
     [self.mDateLabel setHidden:YES];
     self.mUserProfileImageView.alpha = 0;
     self.mNameLabel.hidden = YES;

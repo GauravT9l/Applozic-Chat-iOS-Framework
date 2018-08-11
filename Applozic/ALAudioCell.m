@@ -116,7 +116,7 @@
         }
         UITapGestureRecognizer * menuTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(proccessTapForMenu:)];
         [self.contentView addGestureRecognizer:menuTapGesture];
-
+        
         
     }
     
@@ -125,10 +125,16 @@
 
 -(void) addShadowEffects
 {
-    self.mBubleImageView.layer.shadowOpacity = 0.3;
-    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.shadowOpacity = 0.3;
+    //    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+    //    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.masksToBounds = NO;
+    
+    self.mBubleImageView.layer.cornerRadius = CornerRadius;
+    self.mBubleImageView.layer.borderColor = BorderColor.CGColor;
+    self.mBubleImageView.layer.borderWidth = BorderWidth;
     self.mBubleImageView.layer.masksToBounds = NO;
+    
 }
 
 -(instancetype) populateCell:(ALMessage *) alMessage viewSize:(CGSize)viewSize
@@ -177,7 +183,7 @@
         self.mUserProfileImageView.layer.cornerRadius = self.mUserProfileImageView.frame.size.width/2;
         self.mUserProfileImageView.layer.masksToBounds = YES;
         
-         
+        
         self.mNameLabel.frame = self.mUserProfileImageView.frame;
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:alMessage.to]];
         
@@ -192,21 +198,21 @@
             [self.mNameLabel setHidden:NO];
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:alMessage.to];
         }
-         CGFloat requiredHeight  = BUBBLE_PADDING_HEIGHT;
+        CGFloat requiredHeight  = BUBBLE_PADDING_HEIGHT;
         CGFloat paypauseBUttonY = self.mBubleImageView.frame.origin.y + BUTTON_PADDING_Y ;
-            
-  [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
+        
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                   self.mUserProfileImageView.frame.origin.y,
                                                   viewSize.width/2 + BUBBLE_PADDING_WIDTH, requiredHeight)];
         
         
         if(alMessage.groupId)
         {
-         
+            
             [self.mChannelMemberName setHidden:NO];
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
             [self.mChannelMemberName setText:receiverName];
-   
+            
             self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + CHANNEL_PADDING_X,
                                                        self.mBubleImageView.frame.origin.y + CHANNEL_PADDING_Y,
                                                        self.mBubleImageView.frame.size.width - CHANNEL_PADDING_WIDTH, CHANNEL_HEIGHT);
@@ -214,7 +220,7 @@
             requiredHeight =  requiredHeight + self.mChannelMemberName.frame.size.height;
             paypauseBUttonY = paypauseBUttonY + self.mChannelMemberName.frame.size.height;
             
-        }    
+        }
         if(alMessage.isAReplyMessage)
         {
             [self processReplyOfChat:alMessage andViewSize:viewSize];
@@ -223,11 +229,11 @@
             paypauseBUttonY = paypauseBUttonY + self.replyParentView.frame.size.height;
             
         }
-                    
-            [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
-                                                      self.mUserProfileImageView.frame.origin.y,
-                                                      viewSize.width/2 + BUBBLE_PADDING_WIDTH, requiredHeight)];
-             [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + BUTTON_PADDING_X,
+        
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
+                                                  self.mUserProfileImageView.frame.origin.y,
+                                                  viewSize.width/2 + BUBBLE_PADDING_WIDTH, requiredHeight)];
+        [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + BUTTON_PADDING_X,
                                                 paypauseBUttonY,
                                                 BUTTON_PADDING_WIDTH, BUTTON_PADDING_HEIGHT)];
         
@@ -275,11 +281,11 @@
         {
             self.progresLabel.alpha = 0;
         }
-    
-    
+        
+        
     }else
     {
-
+        
         [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - USER_PROFILE_PADDING_X_OUTBOX, 0, 0, USER_PROFILE_HEIGHT)];
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
@@ -290,7 +296,7 @@
         
         [self.mMessageStatusImageView setHidden:NO];
         
-  
+        
         if(alMessage.isAReplyMessage)
         {
             [self processReplyOfChat:alMessage andViewSize:viewSize ];
@@ -311,7 +317,7 @@
                                                     BUTTON_PADDING_WIDTH, BUTTON_PADDING_HEIGHT)];
             
         }
-                [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x ,
+        [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x ,
                                                       self.playPauseStop.frame.origin.y,
                                                       DOWNLOAD_RETRY_WIDTH, DOWNLOAD_RETRY_WIDTH)];
         
@@ -376,7 +382,7 @@
         ALSLog(ALLoggerSeverityInfo, @"SOUND_URL :: %@",[soundFileURL path]);
         [self.playPauseStop setHidden:NO];
     }
-
+    
     [self.mediaName sizeToFit];
     
     self.playPauseStop.layer.cornerRadius = self.playPauseStop.frame.size.width/2;
@@ -427,7 +433,7 @@
 -(void) proccessTapForMenu:(id)tap{
     
     [self processKeyBoardHideTap];
-
+    
     UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
     UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
     
@@ -436,7 +442,7 @@
         [[UIMenuController sharedMenuController] setMenuItems: @[messageForward,messageReply]];
         
     }else if ([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
-
+        
         
         UIMenuItem * msgInfo = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"infoOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Info", @"") action:@selector(msgInfo:)];
         
@@ -457,9 +463,9 @@
         if(channel && channel.type == OPEN){
             return NO;
         }
-
-    }
         
+    }
+    
     if([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && self.mMessage.groupId){
         
         return (self.mMessage.isDownloadRequired? (action == @selector(delete:) || action == @selector(msgInfo:)):(action == @selector(delete:)|| action == @selector(msgInfo:)|| [self isForwardMenuEnabled:action] || [self isMessageReplyMenuEnabled:action] ));
@@ -548,7 +554,7 @@
             [mediaPlayer pauseAudio];
         }
     }else{
-
+        
         if(mediaPlayer.audioPlayer.isPlaying) {
             [mediaPlayer stopPlaying];
         }
@@ -556,24 +562,24 @@
         mediaPlayer.key = self.mMessage.key;
         [mediaPlayer playAudio:self.mMessage.imageFilePath];
         [self.playPauseStop setImage:[ALUtilityClass getImageFromFramworkBundle:@"PAUSE.png"] forState: UIControlStateNormal];
-
+        
     }
 }
 
 -(NSString*) getAudioLength:(NSString*)path
 {
-
+    
     NSString * duration = [ALMediaPlayer getTotalDuration:path];
-
+    
     NSString *audioLength = [NSString stringWithFormat:@"0:00 / %@", duration];
-
+    
     return audioLength;
 }
 
 -(void) getProgressOfTrack
 {
     ALMediaPlayer * mediaPlayer =  [ALMediaPlayer sharedInstance];
-
+    
     NSInteger durationMinutes = [mediaPlayer.audioPlayer duration] / 60;
     NSInteger durationSeconds = [mediaPlayer.audioPlayer duration] - durationMinutes * 60;
     
@@ -607,7 +613,7 @@
     [self setNeedsDisplay];
     self.progresLabel.startDegree = 0;
     self.progresLabel.endDegree = metaInfo.progressValue;
-     ALSLog(ALLoggerSeverityInfo, @"##observer is called....%f",self.progresLabel.endDegree);
+    ALSLog(ALLoggerSeverityInfo, @"##observer is called....%f",self.progresLabel.endDegree);
 }
 
 -(void) hidePlayButtonOnUploading
@@ -661,7 +667,7 @@
 
 -(BOOL)isMessageReplyMenuEnabled:(SEL) action
 {
-
+    
     return ([ALApplozicSettings isReplyOptionEnabled] && action == @selector(messageReply:));
     
 }

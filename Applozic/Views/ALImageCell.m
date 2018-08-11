@@ -140,7 +140,7 @@ UIViewController * modalCon;
     [self.mNameLabel setHidden:YES];
     [self.imageWithText setHidden:YES];
     [self.mMessageStatusImageView setHidden:YES];
-
+    
     UITapGestureRecognizer *tapForOpenChat = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processOpenChat)];
     tapForOpenChat.numberOfTapsRequired = 1;
     [self.mUserProfileImageView setUserInteractionEnabled:YES];
@@ -177,20 +177,25 @@ UIViewController * modalCon;
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                 0, viewSize.width - BUBBLE_PADDING_WIDTH, requiredHeight);
         
-        self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-        self.mBubleImageView.layer.shadowRadius = 1;
+        //        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        //        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        //        self.mBubleImageView.layer.shadowRadius = 1;
+        //        self.mBubleImageView.layer.masksToBounds = NO;
+        
+        self.mBubleImageView.layer.cornerRadius = CornerRadius;
+        self.mBubleImageView.layer.borderColor = BorderColor.CGColor;
+        self.mBubleImageView.layer.borderWidth = BorderWidth;
         self.mBubleImageView.layer.masksToBounds = NO;
         
-      
+        
         if(alMessage.getGroupId)
         {
             [self.mChannelMemberName setHidden:NO];
             [self.mChannelMemberName setText:receiverName];
-           
+            
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
             
-              
+            
             self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + CHANNEL_PADDING_X,
                                                        self.mBubleImageView.frame.origin.y + CHANNEL_PADDING_Y,
                                                        self.mBubleImageView.frame.size.width + CHANNEL_PADDING_WIDTH, CHANNEL_PADDING_HEIGHT);
@@ -288,7 +293,7 @@ UIViewController * modalCon;
             [self.mNameLabel setHidden:NO];
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:receiverName];
         }
-
+        
         
     }
     else
@@ -302,9 +307,14 @@ UIViewController * modalCon;
         self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + BUBBLE_PADDING_X_OUTBOX),
                                                 0, viewSize.width - BUBBLE_PADDING_WIDTH, viewSize.width - BUBBLE_PADDING_HEIGHT);
         
-        self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-        self.mBubleImageView.layer.shadowRadius = 1;
+        //        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        //        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        //        self.mBubleImageView.layer.shadowRadius = 1;
+        //        self.mBubleImageView.layer.masksToBounds = NO;
+        
+        self.mBubleImageView.layer.cornerRadius = CornerRadius;
+        self.mBubleImageView.layer.borderColor = BorderColor.CGColor;
+        self.mBubleImageView.layer.borderWidth = BorderWidth;
         self.mBubleImageView.layer.masksToBounds = NO;
         
         CGFloat requiredHeight = viewSize.width - BUBBLE_PADDING_HEIGHT;
@@ -430,7 +440,7 @@ UIViewController * modalCon;
     self.mDateLabel.text = theDate;
     
     theUrl = nil;
-
+    
     if (alMessage.imageFilePath != NULL)
     {
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -442,12 +452,12 @@ UIViewController * modalCon;
         if(alMessage.fileMeta.thumbnailFilePath == nil){
             ALMessageClientService * messageClientService = [[ALMessageClientService alloc]init];
             [messageClientService downloadImageThumbnailUrl:alMessage withCompletion:^(NSString *fileURL, NSError *error) {
-             
+                
                 ALSLog(ALLoggerSeverityInfo, @"ATTACHMENT DOWNLOAD URL : %@", fileURL);
                 if(error == nil){
                     [self.delegate thumbnailDownload:alMessage.key withThumbnailUrl:fileURL];
                 }
-            
+                
             }];
         }else{
             
@@ -471,7 +481,7 @@ UIViewController * modalCon;
 -(void) proccessTapForMenu:(id)tap{
     
     [self processKeyBoardHideTap];
-
+    
     UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
     UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
     
@@ -480,7 +490,7 @@ UIViewController * modalCon;
         [[UIMenuController sharedMenuController] setMenuItems: @[messageForward,messageReply]];
         
     }else if ([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
-
+        
         
         UIMenuItem * msgInfo = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"infoOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Info", @"") action:@selector(msgInfo:)];
         
@@ -671,7 +681,7 @@ UIViewController * modalCon;
 
 -(BOOL)isMessageReplyMenuEnabled:(SEL) action
 {
-
+    
     return ([ALApplozicSettings isReplyOptionEnabled] && action == @selector(messageReply:));
     
 }

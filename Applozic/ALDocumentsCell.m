@@ -113,7 +113,7 @@
         
         UITapGestureRecognizer * menuTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(proccessTapForMenu:)];
         [self.contentView addGestureRecognizer:menuTapGesture];
-
+        
         
     }
     return self;
@@ -165,13 +165,13 @@
         
         [self.documentName setTextColor:[UIColor grayColor]];
         
-  
+        
         CGFloat requiredHeight  = BUBBLE_HEIGHT;
         CGFloat imageViewY = self.mBubleImageView.frame.origin.y + IMAGE_VIEW_PADDING_Y ;
-                [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                   self.mUserProfileImageView.frame.origin.y,
                                                   viewSize.width - BUBBLE_PADDING_WIDTH, requiredHeight)];
-          if(alMessage.groupId)
+        if(alMessage.groupId)
         {
             [self.mChannelMemberName setText:receiverName];
             [self.mChannelMemberName setHidden:NO];
@@ -257,7 +257,7 @@
         }
         else
         {
-             self.mDowloadRetryButton.alpha = 0;
+            self.mDowloadRetryButton.alpha = 0;
             self.downloadRetryView.alpha = 0;
             self.sizeLabel.alpha = 0;
         }
@@ -284,7 +284,7 @@
         [self.mMessageStatusImageView setHidden:NO];
         
         [self.documentName setTextColor:[UIColor whiteColor]];
- 
+        
         [self.mBubleImageView setFrame:CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + BUBBLE_PADDING_X_OUTBOX),
                                                   self.mUserProfileImageView.frame.origin.y,
                                                   viewSize.width - BUBBLE_PADDING_WIDTH, BUBBLE_HEIGHT)];
@@ -322,11 +322,11 @@
                                                self.mImageView.frame.origin.y + 5,
                                                self.mBubleImageView.frame.size.width - self.mImageView.frame.size.width - DOC_NAME_PADDING_WIDTH,
                                                DOC_NAME_HEIGHT)];
-
+        
         [self setupProgressValueX: (self.downloadRetryView.frame.origin.x + self.downloadRetryView.frame.size.width/2 - 30)
                              andY: (self.downloadRetryView.frame.origin.y + self.downloadRetryView.frame.size.height/2 - 30)];
         
-
+        
         
         self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x +
                                             self.mBubleImageView.frame.size.width) - theDateSize.width - DATE_PADDING_WIDTH,
@@ -339,7 +339,7 @@
         
         [self.mImageView setImage:[ALUtilityClass getImageFromFramworkBundle:@"documentSend.png"]];
         
-         msgFrameHeight = self.mBubleImageView.frame.size.height;
+        msgFrameHeight = self.mBubleImageView.frame.size.height;
         
         self.progresLabel.alpha = 0;
         
@@ -353,7 +353,7 @@
         }
         else if(!alMessage.imageFilePath && alMessage.fileMeta.blobKey)
         {
-             self.mDowloadRetryButton.alpha = 1;
+            self.mDowloadRetryButton.alpha = 1;
             self.downloadRetryView.alpha = 1;
             self.sizeLabel.alpha = 1;
             [self.sizeLabel setText:[alMessage.fileMeta getTheSize]];
@@ -361,7 +361,7 @@
         }
         else if (alMessage.imageFilePath && !alMessage.fileMeta.blobKey)
         {
-              self.mDowloadRetryButton.alpha = 1;
+            self.mDowloadRetryButton.alpha = 1;
             self.downloadRetryView.alpha = 1;
             self.sizeLabel.alpha = 1;
             [self.sizeLabel setText:[alMessage.fileMeta getTheSize]];
@@ -417,7 +417,7 @@
         self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:imageName];
     }
     
-
+    
     
     return self;
 }
@@ -427,7 +427,7 @@
 -(void) proccessTapForMenu:(id)tap{
     
     [self processKeyBoardHideTap];
-
+    
     UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
     UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
     
@@ -436,7 +436,7 @@
         [[UIMenuController sharedMenuController] setMenuItems: @[messageForward,messageReply]];
         
     }else if ([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
-
+        
         
         UIMenuItem * msgInfo = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"infoOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Info", @"") action:@selector(msgInfo:)];
         
@@ -448,9 +448,14 @@
 
 -(void) addShadowEffects
 {
-    self.mBubleImageView.layer.shadowOpacity = 0.3;
-    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.shadowOpacity = 0.3;
+    //    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+    //    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.masksToBounds = NO;
+    
+    self.mBubleImageView.layer.cornerRadius = CornerRadius;
+    self.mBubleImageView.layer.borderColor = BorderColor.CGColor;
+    self.mBubleImageView.layer.borderWidth = BorderWidth;
     self.mBubleImageView.layer.masksToBounds = NO;
 }
 
@@ -595,7 +600,7 @@
     UIStoryboard *storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *msgInfoVC = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
-     __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
+    __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
     
     [msgInfoVC setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
         
@@ -614,7 +619,7 @@
 {
     ALSLog(ALLoggerSeverityInfo, @"Message forward option is pressed");
     [self.delegate processForwardMessage:self.mMessage];
-        
+    
 }
 
 -(void) processKeyBoardHideTap

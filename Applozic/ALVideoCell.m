@@ -86,7 +86,7 @@
         
         UITapGestureRecognizer * menuTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(proccessTapForMenu:)];
         [self.contentView addGestureRecognizer:menuTapGesture];
-
+        
     }
     
     return self;
@@ -94,10 +94,16 @@
 
 -(void) addShadowEffects
 {
-    self.mBubleImageView.layer.shadowOpacity = 0.3;
-    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
-    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.shadowOpacity = 0.3;
+    //    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+    //    self.mBubleImageView.layer.shadowRadius = 1;
+    //    self.mBubleImageView.layer.masksToBounds = NO;
+    
+    self.mBubleImageView.layer.cornerRadius = CornerRadius;
+    self.mBubleImageView.layer.borderColor = BorderColor.CGColor;
+    self.mBubleImageView.layer.borderWidth = BorderWidth;
     self.mBubleImageView.layer.masksToBounds = NO;
+    
 }
 
 -(instancetype) populateCell:(ALMessage *) alMessage viewSize:(CGSize)viewSize
@@ -257,7 +263,7 @@
         {
             self.progresLabel.alpha = 0;
         }
-    
+        
         
         
     }
@@ -350,7 +356,7 @@
             [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"uploadI1.png"] forState:UIControlStateNormal];
         }
-      msgFrameHeight = self.mBubleImageView.frame.size.height;
+        msgFrameHeight = self.mBubleImageView.frame.size.height;
     }
     
     [self.contentView bringSubviewToFront:self.videoPlayFrontView];
@@ -405,7 +411,7 @@
     }
     
     [self.contentView bringSubviewToFront:self.replyParentView];
-
+    
     return self;
 }
 
@@ -413,7 +419,7 @@
 -(void) proccessTapForMenu:(id)tap{
     
     [self processKeyBoardHideTap];
-
+    
     UIMenuItem * messageForward = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"forwardOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Forward", @"") action:@selector(messageForward:)];
     UIMenuItem * messageReply = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"replyOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Reply", @"") action:@selector(messageReply:)];
     
@@ -422,7 +428,7 @@
         [[UIMenuController sharedMenuController] setMenuItems: @[messageForward,messageReply]];
         
     }else if ([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
-
+        
         
         UIMenuItem * msgInfo = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"infoOptionTitle", [ALApplozicSettings getLocalizableName],[NSBundle mainBundle], @"Info", @"") action:@selector(msgInfo:)];
         
@@ -568,7 +574,7 @@
 
 -(BOOL)isMessageReplyMenuEnabled:(SEL) action
 {
-
+    
     return ([ALApplozicSettings isReplyOptionEnabled] && action == @selector(messageReply:));
     
 }

@@ -15,7 +15,7 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self  = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-
+    
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processKeyBoardHideTap)];
     tapGesture.numberOfTapsRequired = 1;
     [self.contentView addGestureRecognizer:tapGesture];
@@ -25,7 +25,7 @@
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize
 {
     [super populateCell:alMessage viewSize:viewSize];
-
+    
     [self.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getCustomMessageFont]
                                                 size:[ALApplozicSettings getCustomMessageFontSize]]];
     
@@ -54,7 +54,7 @@
     
     CGRect frame = CGRectMake(theTextPoint.x, theTextPoint.y,
                               bubbleWidth, theTextSize.height + (2 * padding));
-
+    
     self.mBubleImageView.backgroundColor = [ALApplozicSettings getCustomMessageBackgroundColor];
     [self.mBubleImageView setFrame:frame];
     [self.mBubleImageView setHidden:NO];
@@ -62,7 +62,7 @@
     [self.mMessageLabel setFrame: CGRectMake(self.mBubleImageView.frame.origin.x + padding ,padding,
                                              theTextSize.width,
                                              theTextSize.height)];
-
+    
     return self;
 }
 

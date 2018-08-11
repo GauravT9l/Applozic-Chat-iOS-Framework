@@ -173,9 +173,9 @@
 {
     
     //-------------Gaurav
-    NSInteger cornerRadius = 5;
-    UIColor *borderColor =  [UIColor lightGrayColor];  //[UIColor colorWithRed:225.0/255 green:224.0/255 blue:224.0/255 alpha:1.0];
-    NSInteger borderWidth = 1;
+    NSInteger cornerRadius = CornerRadius;
+    UIColor *borderColor =  BorderColor;
+    NSInteger borderWidth = BorderWidth;
     
     //------ ReSetting
     self.mBubleImageView.layer.cornerRadius = 0.0;

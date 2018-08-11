@@ -30,9 +30,9 @@
     [self.mMessageLabel setTextColor:[UIColor whiteColor]];
     [self.mMessageLabel setUserInteractionEnabled:NO];
     NSString *textMsg = [alMessage getVOIPMessageText];
-   
+    
     textMsg = [NSString stringWithFormat:@"%@ at %@",textMsg, self.mDateLabel.text];
-   
+    
     [self.mDateLabel setHidden:YES];
     self.mUserProfileImageView.alpha = 0;
     self.mNameLabel.hidden = YES;
@@ -72,9 +72,9 @@
 
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender
 {
-  
+    
     return (action == @selector(delete:));
-
+    
 }
 
 
