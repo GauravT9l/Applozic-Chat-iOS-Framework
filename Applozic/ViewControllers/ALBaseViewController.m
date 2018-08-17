@@ -149,15 +149,15 @@ static CGFloat const sendButtonCornerRadius = 15.0f;
     
     if([ALApplozicSettings getCustomNavigationControllerClassName])
     {
-        ALNavigationController * customnavController = (ALNavigationController*)self.navigationController;
-        
-        NSMutableArray * customButtons = [customnavController getCustomButtons];
-        
-        for(UIView* buttonView in customButtons)
-        {
-            UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonView];
-            [self.navRightBarButtonItems addObject:barButtonItem];
-        }
+        //        ALNavigationController * customnavController = (ALNavigationController*)self.navigationController;
+        //
+        //        NSMutableArray * customButtons = [customnavController getCustomButtons];
+        //
+        //        for(UIView* buttonView in customButtons)
+        //        {
+        //            UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonView];
+        //            [self.navRightBarButtonItems addObject:barButtonItem];
+        //        }
         
     }
     self.navigationItem.rightBarButtonItems = [self.navRightBarButtonItems mutableCopy];
@@ -543,7 +543,7 @@ static CGFloat const sendButtonCornerRadius = 15.0f;
     UIImage * backImage = [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"];
     backImage = [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:backImage];
-    [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
+    [imageView setFrame:CGRectMake(0, 0, 30, 30)];
     [imageView setTintColor:[ALApplozicSettings getColorForNavigationItem]];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5,
                                                                imageView.frame.origin.y + 5 , 20, 15)];

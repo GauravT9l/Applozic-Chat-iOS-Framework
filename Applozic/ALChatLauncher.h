@@ -24,7 +24,11 @@
 @property (nonatomic, strong) NSNumber * chatLauncherFLAG;
 
 -(instancetype)initWithApplicationId:(NSString *) applicationId;
-
+-(void)EmbedIndividualChatForGroup:(NSString *)userId
+                       withGroupId:(NSNumber*)groupID
+                   withDisplayName:(NSString*)displayName
+                         container:(UIViewController *)containervc
+                       andWithText:(NSString *)text;
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;

@@ -56,7 +56,7 @@
 
 +(CGFloat)getContactCellHeight
 {
-    CGFloat HEIGHT = 265;
+    CGFloat HEIGHT = 160;
     return HEIGHT;
 }
 
@@ -116,7 +116,7 @@
                                                maxWidth:cellFrame.size.width - 115
                                                    font:[ALApplozicSettings getCustomMessageFont]
                                                fontSize:[ALApplozicSettings getCustomMessageFontSize]];
-                                            // WORKING FOR NOW BUT NEED TO CHANGE FONT & FONT-SIZE FOR VOIP TEXT BEFORE RELEASE
+    // WORKING FOR NOW BUT NEED TO CHANGE FONT & FONT-SIZE FOR VOIP TEXT BEFORE RELEASE
     
     CGFloat HEIGHT = theTextSize.height + 40;
     return HEIGHT;
@@ -129,7 +129,7 @@
                                                    font:@"Helvetica"
                                                fontSize:CH_MESSAGE_TEXT_SIZE];
     
-    CGFloat HEIGHT = theTextSize.height + 30;    
+    CGFloat HEIGHT = theTextSize.height + 30;
     return HEIGHT;
 }
 
@@ -195,3 +195,4 @@
 }
 
 @end
+

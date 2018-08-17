@@ -44,6 +44,9 @@
     NSString * className = [ALApplozicSettings getCustomNavigationControllerClassName];
     if (![className isKindOfClass:[NSString class]]) className = @"UINavigationController";
     UINavigationController * navC = [(UINavigationController *)[NSClassFromString(className) alloc] initWithRootViewController:vc];
+    if (!navC) {
+        navC = [(UINavigationController *)[NSClassFromString(@"UINavigationController") alloc] initWithRootViewController:vc];
+    }
     return navC;
 }
 
@@ -99,6 +102,37 @@
     }
 }
 
+-(void)EmbedIndividualChatForGroup:(NSString *)userId
+                       withGroupId:(NSNumber*)groupID
+                   withDisplayName:(NSString*)displayName
+                         container:(UIViewController *)containervc
+                       andWithText:(NSString *)text{
+    
+    ALChannelService * channelService  =  [ALChannelService new];
+    [channelService getChannelInformation:groupID orClientChannelKey:nil withCompletion:^(ALChannel *alChannel) {
+        //Channel information
+        ALSLog(ALLoggerSeverityInfo, @" alChannel ###%@ ", alChannel.name);
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                    
+                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        
+        ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        
+        chatView.channelKey = groupID;
+        chatView.text = text;
+        chatView.contactIds = userId;
+        chatView.individualLaunch = YES;
+        chatView.displayName = displayName;
+        chatView.chatViewDelegate = self;
+        
+        chatView.view.frame = containervc.view.bounds;
+        [chatView.view layoutIfNeeded];
+        [containervc addChildViewController:chatView];
+        [containervc.view addSubview:chatView.view];
+        [containervc didMoveToParentViewController:containervc];
+    }];
+}
+
 -(void)launchIndividualChatForGroup:(NSString *)userId withGroupId:(NSNumber*)groupID
                     withDisplayName:(NSString*)displayName
             andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
@@ -106,28 +140,28 @@
     
     ALChannelService * channelService  =  [ALChannelService new];
     [channelService getChannelInformation:groupID orClientChannelKey:nil withCompletion:^(ALChannel *alChannel) {
-                               //Channel information
-                               
-                               
-       ALSLog(ALLoggerSeverityInfo, @" alChannel ###%@ ", alChannel.name);
-       UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                   
-                                                            bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-       
-       ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-       
-       chatView.channelKey = groupID;
-       chatView.text = text;
-       chatView.contactIds = userId;
-       chatView.individualLaunch = YES;
-       chatView.displayName = displayName;
-       chatView.chatViewDelegate = self;
-       
-       UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];;
-       conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
-       [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-       
-   }];
+        //Channel information
+        
+        
+        ALSLog(ALLoggerSeverityInfo, @" alChannel ###%@ ", alChannel.name);
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                    
+                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        
+        ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        
+        chatView.channelKey = groupID;
+        chatView.text = text;
+        chatView.contactIds = userId;
+        chatView.individualLaunch = YES;
+        chatView.displayName = displayName;
+        chatView.chatViewDelegate = self;
+        
+        UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];;
+        conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
+        [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+        
+    }];
 }
 
 
@@ -151,12 +185,12 @@
 
 -(void)registerForNotification
 {
-//    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:
-//                                                                         (UIUserNotificationTypeSound |
-//                                                                          UIUserNotificationTypeAlert |
-//                                                                          UIUserNotificationTypeBadge) categories:nil]];
-//    
-//    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    //    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:
+    //                                                                         (UIUserNotificationTypeSound |
+    //                                                                          UIUserNotificationTypeAlert |
+    //                                                                          UIUserNotificationTypeBadge) categories:nil]];
+    //
+    //    [[UIApplication sharedApplication] registerForRemoteNotifications];
     
     UIUserNotificationSettings * APNSetting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
     
